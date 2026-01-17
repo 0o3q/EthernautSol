@@ -2,5 +2,11 @@
 src = "src"
 out = "out"
 libs = ["lib"]
+evm_version = "prague"
 
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
+
+[rpc_endpoints]
+sepolia = {key = '${ETHERSCAN_KEY}', url = '${SEPOLIA_RPC_URL}'}
+holesky = {key = '${ETHERSCAN_KEY}', url = 'https://holesky.drpc.org'}
+kairos = {key = '${KAIROS_API_KEY}', url = 'https://public-en-kairos.node.kaia.io'}
